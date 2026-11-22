@@ -46,6 +46,7 @@
       loadResults();
       $('stepSession').style.display = 'none';
       $('stepTest').style.display = '';
+      document.body.classList.add('scanning');
       $('sheetTitle').textContent = j.title;
       $('codeLabel').textContent = 'Session ' + j.code;
       buildList();
@@ -247,7 +248,15 @@
   function short(s) { s = String(s); return s.length > 28 ? s.slice(0, 26) + '…' : s; }
   function flashRow(n) {
     const row = [...$('itemlist').children].find(c => +c.dataset.n === n);
-    if (row) { row.classList.add('flash-ok'); setTimeout(() => row.classList.remove('flash-ok'), 750); row.scrollIntoView({ block: 'nearest' }); }
+    if (!row) return;
+    row.classList.add('flash-ok');
+    setTimeout(() => row.classList.remove('flash-ok'), 750);
+    // scroll inside the checklist container only — the page itself must never jump
+    const list = $('itemlist');
+    const top = row.offsetTop - list.offsetTop;
+    if (top < list.scrollTop || top > list.scrollTop + list.clientHeight - row.offsetHeight) {
+      list.scrollTop = top - list.clientHeight / 3;
+    }
   }
   function setScanMsg(text, cls) {
     scanmsg.textContent = text;
@@ -519,6 +528,7 @@
     try { localStorage.removeItem('pt_results_' + (window.__lastCode || '')); } catch (_) {}
     $('manualbar').style.display = 'none';
     $('stepTest').style.display = 'none';
+    document.body.classList.remove('scanning');
     $('stepSession').style.display = '';
     $('sessMsg').textContent = '';
     history.replaceState(null, '', location.pathname);
