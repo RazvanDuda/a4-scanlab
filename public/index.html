@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Print Test — A4 Barcode Sheet Generator</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar no-print">
+    <span class="logo">🖨️</span>
+    <div>
+      <h1>Print Test — A4 Barcode Sheet Generator</h1>
+      <div class="muted">Generate an A4 test sheet with every barcode type, print it, then verify each printed code with your phone.</div>
+    </div>
+  </div>
+
+  <div class="panel no-print">
+    <h2>1 · Choose barcodes</h2>
+    <div class="sym-list-head">
+      <span>Tick the types to include. You can edit each test value.</span>
+      <span style="flex:1"></span>
+      <button id="selAll" type="button">Select all</button>
+      <button id="selNone" type="button">Clear</button>
+      <button id="selDefaults" type="button">Recommended</button>
+    </div>
+    <div class="sym-list" id="symList"></div>
+  </div>
+
+  <div class="panel no-print">
+    <h2>2 · Sheet options</h2>
+    <div class="grid4">
+      <label class="field">Sheet title
+        <input type="text" id="title" value="A4 Barcode Test Sheet">
+      </label>
+      <label class="field">Columns
+        <select id="cols">
+          <option value="2">2</option>
+          <option value="3" selected>3</option>
+          <option value="4">4</option>
+        </select>
+      </label>
+      <label class="field">Barcode size
+        <select id="size">
+          <option value="s">Small</option>
+          <option value="m" selected>Medium</option>
+          <option value="l">Large</option>
+        </select>
+      </label>
+      <label class="field">Extras
+        <select id="extras">
+          <option value="none" selected>None</option>
+          <option value="strip">+ Print-quality test strip</option>
+        </select>
+      </label>
+    </div>
+    <div class="grid2" style="margin-top:10px">
+      <label class="field">Phone validator URL prefix (for the QR on the sheet)
+        <input type="text" id="hostOverride" placeholder="leave empty = this page's address">
+      </label>
+      <div class="field" style="align-self:end">
+        <span class="muted">The QR code printed at the top of the sheet opens the mobile validator with this sheet loaded automatically.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel no-print">
+    <h2>3 · Generate &amp; print</h2>
+    <div class="toolbar">
+      <button class="btn" id="generate">Generate sheet</button>
+      <button class="btn ok" id="print" disabled>🖨️ Print (A4)</button>
+      <span class="muted" id="genStatus"></span>
+    </div>
+    <div class="muted" style="margin-top:8px">
+      Print settings: <b>paper A4 · scale 100% / default size · margins “None” or “Default”</b>.
+      On the phone open <a href="/validate">/validate</a>, scan the QR on the sheet, then scan the printed codes one by one.
+    </div>
+  </div>
+
+  <div id="sheetHolder"></div>
+</div>
+
+<script src="/vendor/bwip-js.min.js"></script>
+<script src="/js/symbologies.js"></script>
+<script src="/js/generator.js"></script>
+</body>
+</html>

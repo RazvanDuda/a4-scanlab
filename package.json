@@ -1,0 +1,15 @@
+{
+  "name": "a4-scanlab",
+  "version": "1.0.0",
+  "description": "A4 barcode print test tool + mobile barcode validator",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "test:encoders": "node test-encoders.js"
+  },
+  "dependencies": {
+    "bwip-js": "^4.7.0",
+    "@zxing/library": "^0.21.3"
+  }
+}

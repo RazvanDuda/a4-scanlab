@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Print Test — Barcode Validator</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="validator">
+<div class="wrap">
+
+  <!-- step 1: session -->
+  <div id="stepSession" class="panel">
+    <div class="topbar">
+      <span class="logo">📱</span>
+      <div>
+        <h1>Barcode Validator</h1>
+        <div class="muted">Verify your printed A4 test sheet, code by code.</div>
+      </div>
+    </div>
+    <label class="field">Session code (from the printed sheet)
+      <input type="text" id="codeInput" placeholder="e.g. K7Q2" autocapitalize="characters" style="text-transform:uppercase">
+    </label>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button class="btn block" id="loadBtn" style="flex:1">Load sheet</button>
+      <button class="btn secondary block" id="scanQRBtn" style="flex:1">Scan QR on sheet</button>
+    </div>
+    <div class="muted" id="sessMsg" style="margin-top:8px"></div>
+    <div id="qrScanBox" style="display:none;margin-top:10px">
+      <div id="qrbox" class="camwrap"><video id="qrvideo" playsinline muted></video></div>
+    </div>
+  </div>
+
+  <!-- step 2: checklist + camera -->
+  <div id="stepTest" style="display:none">
+    <div class="panel">
+      <div class="topbar" style="justify-content:space-between">
+        <div>
+          <h1 id="sheetTitle" style="font-size:1.05rem"></h1>
+          <div class="muted"><span id="codeLabel"></span> · <span id="counts"></span></div>
+        </div>
+        <button class="btn secondary" id="resetsess">Reset</button>
+      </div>
+      <div class="progressbar"><div id="progfill"></div></div>
+    </div>
+
+    <div class="panel">
+      <div class="modebar" style="margin-bottom:10px">
+        <button class="btn secondary active" id="modeAuto" data-mode="auto">🔎 Auto-match<br><span class="small">scan any code</span></button>
+        <button class="btn secondary" id="modeManual" data-mode="manual">👆 One-by-one<br><span class="small">tap item, then scan</span></button>
+      </div>
+      <div id="cambox">
+        <video id="video" playsinline muted></video>
+        <div class="reticle"><div></div></div>
+        <button class="torch" id="torchBtn" style="display:none">🔦</button>
+      </div>
+      <div id="scanmsg">Point the camera at a printed barcode…</div>
+      <div class="muted small" id="engineNote"></div>
+      <div id="manualbar" style="display:none;margin-top:10px">
+        <div class="muted small" style="margin-bottom:6px">Manual result for the selected item (use for “visual only” types):</div>
+        <div class="modebar">
+          <button class="btn ok" id="markPass" style="flex:1">✔ PASS</button>
+          <button class="btn secondary" id="markWarn" style="flex:1">⚠ OK</button>
+          <button class="btn danger" id="markFail" style="flex:1">✖ FAIL</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Checklist <span class="badge" id="filterBadge"></span></h2>
+      <div class="modebar" style="margin-bottom:6px">
+        <button class="btn secondary" id="filterAll" style="flex:1">All</button>
+        <button class="btn secondary" id="filterTbd" style="flex:1">Untested only</button>
+      </div>
+      <div id="itemlist"></div>
+      <button class="btn block secondary" id="reportBtn" style="margin-top:10px">📄 Validation report</button>
+    </div>
+  </div>
+
+  <!-- report overlay -->
+  <div id="report" class="panel" style="display:none">
+    <div class="topbar">
+      <h1 style="flex:1">Validation report</h1>
+      <button class="btn secondary" id="closeReport">Close</button>
+    </div>
+    <textarea id="resultpre" readonly></textarea>
+    <button class="btn block" id="copyReport" style="margin-top:8px">Copy report</button>
+  </div>
+</div>
+
+<script src="/vendor/zxing.min.js"></script>
+<script src="/vendor/zxing-wasm.js"></script>
+<script src="/js/validator.js"></script>
+</body>
+</html>

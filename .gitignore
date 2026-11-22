@@ -1,0 +1,7 @@
+node_modules/
+cert/
+server.log
+sessions.json
+.DS_Store
+*.local
+.wrangler/
