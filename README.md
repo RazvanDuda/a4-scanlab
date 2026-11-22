@@ -26,27 +26,23 @@ Two tools in one small web app:
   zoom (small codes), 0.5× downscale (huge codes) — so both tiny and oversized barcodes decode.
 - Quiet zones are added around every rendered symbol (bwip-js omits them by default).
 
-## Deploy to Cloudflare Pages
+## Deploy to Cloudflare (Workers)
 
-The repo is Pages-ready: static assets in `public/`, API in `functions/` (Pages Functions),
-sessions stored in Cloudflare KV.
+The repo deploys as a **Worker with static assets**: the app in `public/`, API routes in
+`worker.js`, sessions in Cloudflare KV.
 
-**Option A — dashboard (easiest):**
-1. Push the repo to GitHub, then in Cloudflare: *Workers & Pages → Create → Pages → Connect to Git*.
-2. Build settings: framework preset **None**, build command *(empty)*, output dir **`public`**.
-3. Create a KV namespace (*Storage & Databases → KV → Create*, name it `SESSIONS`).
-4. In the Pages project: *Settings → Bindings → Add → KV namespace*, variable name
-   **`SESSIONS`**, pick the namespace. Redeploy.
+1. Create a KV namespace: *Storage & Databases → KV → Create* (name it `SESSIONS`), or
+   `npx wrangler kv namespace create SESSIONS`.
+2. Paste its **id** into `wrangler.toml` (uncomment the `[[kv_namespaces]]` block).
+3. Push — the Workers git build runs `npx wrangler deploy` and goes green. Or run
+   `npx wrangler deploy` locally.
 
-**Option B — wrangler CLI:**
-```bash
-npm i -g wrangler
-wrangler login
-wrangler kv namespace create SESSIONS     # paste the id into wrangler.toml
-npx wrangler pages deploy public          # first time: it creates the project
-```
+Until KV is bound, the site still works; only creating/fetching sessions returns an error.
 
-After deploying, the printed QR links automatically use your `https://<project>.pages.dev`
+*A Pages-project setup also works: static dir `public`, Pages Functions in `functions/`
+(mirrored API), KV binding `SESSIONS` in the dashboard.*
+
+After deploying, the printed QR links automatically use your `https://barcode.<your-subdomain>.workers.dev`
 origin — the camera works out of the box (no self-signed certificate step).
 
 ## Run locally (LAN mode)
