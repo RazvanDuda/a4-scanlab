@@ -52,10 +52,13 @@
       <div id="cambox">
         <video id="video" playsinline muted></video>
         <div class="reticle"><div></div></div>
+        <a class="cam-home" href="/" title="Back to the main site">🏠<span>&nbsp;Main site</span></a>
+        <div class="cam-chip" id="camProg"></div>
         <button class="torch" id="torchBtn" style="display:none">🔦</button>
       </div>
       <div id="scanmsg">Point the camera at a printed barcode…</div>
       <div class="muted small" id="engineNote"></div>
+      <button class="btn block secondary" id="listBtn">📋 Checklist</button>
       <div id="manualbar" style="display:none;margin-top:10px">
         <div class="muted small" style="margin-bottom:6px">Manual result for the selected item (use for “visual only” types):</div>
         <div class="modebar">
@@ -66,8 +69,13 @@
       </div>
     </div>
 
-    <div class="panel">
-      <h2>Checklist <span class="badge" id="filterBadge"></span></h2>
+    <div class="panel" id="checkPanel">
+      <h2>Checklist <span class="badge" id="filterBadge"></span>
+        <span style="float:right">
+          <button id="resetBtn2" class="btn secondary" style="padding:2px 10px">↺ Reset</button>
+          <button id="closeList" class="btn secondary" style="padding:2px 10px">✕ Hide</button>
+        </span>
+      </h2>
       <div class="modebar" style="margin-bottom:6px">
         <button class="btn secondary" id="filterAll" style="flex:1">All</button>
         <button class="btn secondary" id="filterTbd" style="flex:1">Untested only</button>

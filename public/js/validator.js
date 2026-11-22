@@ -118,6 +118,8 @@
       if (r.status === 'pass') p++; else if (r.status === 'warn') w++; else if (r.status === 'fail') f++;
     });
     $('counts').textContent = p + '/' + t + ' passed' + (w ? ' · ' + w + ' warn' : '') + (f ? ' · ' + f + ' fail' : '');
+    const cp = $('camProg');
+    if (cp) cp.textContent = '✅ ' + p + ' · ⚠ ' + w + ' · ✖ ' + f + '  (' + Math.round(((p + w) / t) * 100) + '%)';
     $('progfill').style.width = Math.round(((p + w) / t) * 100) + '%';
     $('progfill').style.background = f ? 'var(--warn)' : 'var(--ok)';
   }
@@ -382,7 +384,7 @@
           const d = found[0];
           handleDecode(d.text, normalizeFormat(d.format));
         }
-        await sleep(strat === 0 ? 120 : 150);
+        await sleep(strat === 0 ? 320 : 380);
       } catch (e) {
         if (++backoff > 3) { setScanMsg('⚠ WASM scanner error: ' + e.message, 'bad'); return; }
         await sleep(300);
@@ -400,13 +402,13 @@
         handleDecode(d.rawValue, fmt);
       }
     } catch (_) { /* transient */ }
-    rafId = requestAnimationFrame(() => setTimeout(loopDetector, 60));
+    rafId = requestAnimationFrame(() => setTimeout(loopDetector, 160));
   }
 
   function handleDecode(text, format) {
     const now = Date.now();
     const key = norm(text) + '|' + format;
-    if (key === lastResult.text && now - lastResult.t < 1800) return; // debounce same code
+    if (key === lastResult.text && now - lastResult.t < 2500) return; // debounce same code
     lastResult = { text: key, t: now };
     matchScanned(text, normalizeFormat(format));
   }
@@ -546,6 +548,9 @@
   $('markPass').onclick = () => markManual('pass');
   $('markWarn').onclick = () => markManual('warn');
   $('markFail').onclick = () => markManual('fail');
+  $('listBtn').onclick = () => $('checkPanel').classList.toggle('open');
+  $('closeList').onclick = () => $('checkPanel').classList.remove('open');
+  $('resetBtn2').onclick = () => $('resetsess').click();
   $('filterAll').onclick = () => { filterTbdOnly = false; $('filterBadge').textContent = ''; refreshList(); };
   $('filterTbd').onclick = () => { filterTbdOnly = true; $('filterBadge').textContent = 'untested'; refreshList(); };
   $('reportBtn').onclick = () => {
