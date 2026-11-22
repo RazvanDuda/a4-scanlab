@@ -14,6 +14,6 @@ binding = "ASSETS"
 #   Dashboard: Storage & Databases -> KV -> Create namespace (name: SESSIONS)
 #   or CLI:    npx wrangler kv namespace create SESSIONS
 # Then uncomment:
-# [[kv_namespaces]]
-# binding = "SESSIONS"
-# id = "PASTE_YOUR_KV_NAMESPACE_ID"
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "0d5076dc1aa344169e7312959d3beded"
