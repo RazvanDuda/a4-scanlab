@@ -138,36 +138,14 @@ body.validator .btn.secondary { background: #2a3648; color: #e8edf4; }
 
 #itemlist { max-height: 46vh; overflow-y: auto; }
 
-/* ---- locked scanning layout: header + camera pinned, only the checklist scrolls ---- */
-body.validator.scanning { overflow: hidden; }
-body.validator.scanning .wrap {
-  height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  padding-bottom: max(14px, env(safe-area-inset-bottom));
+/* ---- scanning layout: camera pinned via sticky, checklist scrolls under it ---- */
+body.validator.scanning #stepTest .panel:nth-of-type(2) {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5);
 }
-body.validator.scanning #stepTest {
-  display: flex !important;
-  flex-direction: column;
-  flex: 1 1 auto;
-  min-height: 0;
-}
-body.validator.scanning #stepTest .panel { margin-bottom: 8px; padding: 10px; flex: 0 0 auto; }
 body.validator.scanning #cambox { max-height: 38dvh; }
-body.validator.scanning #stepTest .panel:nth-of-type(3) {
-  flex: 1 1 auto;
-  min-height: 0;
-  margin-bottom: 0;
-  display: flex;
-  flex-direction: column;
-}
-body.validator.scanning #stepTest .panel:nth-of-type(3) #itemlist {
-  flex: 1 1 auto;
-  min-height: 0;
-  max-height: none;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
 
 /* report overlay floats above the locked scan view */
 #report {
