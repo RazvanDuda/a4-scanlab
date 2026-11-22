@@ -1,9 +1,19 @@
-name = "a4-scanlab"
-pages_build_output_dir = "public"
+# A4 ScanLab — Cloudflare Worker config (Workers project, git-connected)
+# Deploy: `npx wrangler deploy` (or push to GitHub and let the Workers build run)
+
+name = "barcode"
+main = "worker.js"
 compatibility_date = "2024-09-01"
 
-# Sessions storage. Create the namespace once, then paste its id here:
-#   npx wrangler kv namespace create SESSIONS
-[[kv_namespaces]]
-binding = "SESSIONS"
-id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+# Static app (generator, validator, vendored bwip-js / zxing-cpp WASM)
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+# Sessions storage. Create the namespace once, then paste its id below:
+#   Dashboard: Storage & Databases -> KV -> Create namespace (name: SESSIONS)
+#   or CLI:    npx wrangler kv namespace create SESSIONS
+# Then uncomment:
+# [[kv_namespaces]]
+# binding = "SESSIONS"
+# id = "PASTE_YOUR_KV_NAMESPACE_ID"
