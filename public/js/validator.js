@@ -144,7 +144,12 @@
     // digit symbologies: tolerate check-digit expansion returned by zxing-cpp
     if (/^\d+$/.test(e) && /^\d+$/.test(t)) {
       if (t === e + digitsMod10(e)) return true;            // EAN-13/8, ITF-14: payload + check
-      if (t === '0' + e + digitsMod10(e)) return true;      // UPC-A scanned as EAN-13
+      // UPC-A ↔ EAN-13 leading-zero equivalence — either side may already carry its check digit
+      const e2 = (e.length === 13 && e[0] === '0') ? e.slice(1) : e;
+      const t2 = (t.length === 13 && t[0] === '0') ? t.slice(1) : t;
+      if (t2 === e2) return true;
+      if (t2 === e2 + digitsMod10(e2)) return true;
+      if (t === '0' + e + digitsMod10(e)) return true;      // UPC-A payload scanned as EAN-13
       const x = expandUPCE(e);                              // UPC-E scanned as UPC-A / EAN-13 expansion
       if (x && (t === x + digitsMod10(x) || t === '0' + x + digitsMod10(x))) return true;
     }
