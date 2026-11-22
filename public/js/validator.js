@@ -551,6 +551,7 @@
   $('listBtn').onclick = () => $('checkPanel').classList.toggle('open');
   $('closeList').onclick = () => $('checkPanel').classList.remove('open');
   $('resetBtn2').onclick = () => $('resetsess').click();
+  $('camReset').onclick = () => $('resetsess').click();
   $('filterAll').onclick = () => { filterTbdOnly = false; $('filterBadge').textContent = ''; refreshList(); };
   $('filterTbd').onclick = () => { filterTbdOnly = true; $('filterBadge').textContent = 'untested'; refreshList(); };
   $('reportBtn').onclick = () => {
